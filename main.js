@@ -1,4 +1,5 @@
 let shop = document.getElementById("shop");
+
 let shopItemsData = [
         {
             id: "oneID",
@@ -30,6 +31,9 @@ let shopItemsData = [
     ];
 
 
+let basket = [];
+
+
 let generateShop = () => {
     /**
      * ! the return will have destination.innferHTML
@@ -53,9 +57,9 @@ let generateShop = () => {
                 <div class="price-quantity">
                     <h2>$ ${price}</h2>
                     <div class="button">
-                        <i class="bi bi-dash-lg"></i>
+                        <i onclick = "decrement(${id})" class="bi bi-dash-lg"></i>
                         <div id =${id} class="quantity">0</div>
-                        <i class="bi bi-plus-lg"></i>
+                        <i onclick = "increment(${id})" class="bi bi-plus-lg"></i>
                     </div>
                 </div>
             </div>
@@ -67,5 +71,35 @@ let generateShop = () => {
      * ! fixing th visual issue
      */
 };
-
 generateShop();
+
+// id is used to specfiy which card is being inc/dec/updated
+let increment = (id) => {
+    let selectedItem = id;
+    // checks to see if the item is already in the cart/basket
+    let search = basket.find( (x) => x.id === selectedItem.id);
+
+    if(search === undefined){
+        basket.push({ id: selectedItem.id, item: 1});
+    }else{
+        search.item += 1;
+    }
+
+    console.log(basket)
+}
+
+let decrement = (id) => {
+    let selectedItem = id;
+
+    let search = basket.find( (x) => x.id === selectedItem.id);
+
+    if(search.item === 0){
+        return
+    }else{
+        search.item -= 1;
+    }
+
+    console.log(basket)
+}
+
+let update = () => {}
