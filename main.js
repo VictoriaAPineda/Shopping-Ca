@@ -1,5 +1,7 @@
+// Selects the shop div in the HTML file
 let shop = document.getElementById("shop");
 
+// Holds data about each product card
 let shopItemsData = [
         {
             id: "oneID",
@@ -30,7 +32,7 @@ let shopItemsData = [
         }
     ];
 
-// will retrieve data stores, or if none stored, sets an empty array
+// Retrieves data stored, or if nothing has been stored, sets up an empty array
 let basket = JSON.parse(localStorage.getItem("data")) || [];
 
 // Template
@@ -77,28 +79,27 @@ let generateShop = () => {
 };
 generateShop();
 
-// id is used to specfiy which card is being inc/dec/updated
+
 let increment = (id) => {
+    // id is used to track which card is being inc/dec/updated
     let selectedItem = id;
-    // checks to see if the item is already in the cart/basket
+    // checks to see if the item's id is already in the cart/basket (T/F)
     let search = basket.find( (x) => x.id === selectedItem.id);
 
     if(search === undefined){
+        // adds a new product obj
         basket.push({ id: selectedItem.id, item: 1});
     }else{
+        // adds to the item's quantity
         search.item += 1;
     }
-
-   // console.log(basket)
-   //  "data" is a key name , basket is the object getting stored
-  
     update(selectedItem.id);
+     // "data" is a key name , basket is the object getting stored
     localStorage.setItem("data", JSON.stringify(basket))
 }
 
 let decrement = (id) => {
     let selectedItem = id;
-
     let search = basket.find( (x) => x.id === selectedItem.id);
 
     if(search === undefined){
@@ -110,29 +111,25 @@ let decrement = (id) => {
         search.item -= 1;
     }
     update(selectedItem.id);
-    // basket will only hold products that have above 1 item counts
+    // basket will only hold products that have a item count above 1
     basket = basket.filter((x)=> x.item !== 0)
-    //console.log(basket)
     localStorage.setItem("data", JSON.stringify(basket))
 }
 
+// Displays the item count on the webpage
 let update = (id) => {
     let search = basket.find((x) => x.id === id);
     document.getElementById(id).innerHTML = search.item;
-
-    //console.log(search.item)
     calculation();
-
 }
-// this will add the number of items in basket, then display it
+// Adds the number quantity of items in basket, then displays total
 // within the cart icon 
 let calculation = () =>{
     let cardIcon = document.getElementById("cartAmount");
-    // x is prev # y is the next #
-    // 0 is the default number / it's starts at 0
-    // reduce is adding
+    // x is prev number y is the next numer, 0 is the default number
+    // reduce() is adding
     cardIcon.innerHTML = basket.map((x)=> x.item).reduce((x,y)=> x + y, 0);
-
 }
-// everytime the application loads, runs, then shows the total in cart 
+
+// Everytime the application loads, runs, then shows the total in cart 
 calculation()
