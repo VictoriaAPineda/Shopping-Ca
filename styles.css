@@ -7,6 +7,9 @@
 body{
     font-family: sans-serif;
 }
+i{
+    cursor: pointer;
+}
 
 .navbar{
     background-color: #212529;

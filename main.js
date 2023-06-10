@@ -91,8 +91,9 @@ let increment = (id) => {
 
    // console.log(basket)
    //  "data" is a key name , basket is the object getting stored
-    localStorage.setItem("data", JSON.stringify(basket))
+  
     update(selectedItem.id);
+    localStorage.setItem("data", JSON.stringify(basket))
 }
 
 let decrement = (id) => {
@@ -100,15 +101,19 @@ let decrement = (id) => {
 
     let search = basket.find( (x) => x.id === selectedItem.id);
 
-    if(search.item === 0){
+    if(search === undefined){
+        return // does nothing
+    }
+    else if(search.item === 0){
         return
     }else{
         search.item -= 1;
     }
-
-   //console.log(basket)
-    localStorage.setItem("data", JSON.stringify(basket))
     update(selectedItem.id);
+    // basket will only hold products that have above 1 item counts
+    basket = basket.filter((x)=> x.item !== 0)
+    //console.log(basket)
+    localStorage.setItem("data", JSON.stringify(basket))
 }
 
 let update = (id) => {
