@@ -1,9 +1,6 @@
 // Selects the shop div in the HTML file
 let shop = document.getElementById("shop");
 
-
-
-
 // Retrieves data stored, or if nothing has been stored, sets up an empty array
 let basket = JSON.parse(localStorage.getItem("data")) || [];
 
