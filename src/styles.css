@@ -22,7 +22,7 @@ a{
 
     display: flex;
     justify-content: space-between;
-
+    align-items: center;
     margin-bottom: 10px;
 }
 .cart{
@@ -56,6 +56,7 @@ a{
     grid-template-columns: repeat(4, 233px);
     gap: 30px;
     justify-content: center;
+    margin-bottom: 50px;
 }
 @media (max-width: 1000px) {
     .shop{
@@ -70,6 +71,10 @@ a{
 .item{
     border: 2px solid #212529;
     border-radius: 4px;
+}
+.item img{
+    width: 100%;
+    border-radius: 2px 2px 0 0;
 }
 .details{
     display: flex;
@@ -102,7 +107,7 @@ a{
     text-align: center;
     margin-bottom: 20px;
 }
-.HomeBtn{
+.HomeBtn, .checkout,.removeAll{
     background-color: #212529;
     color: white;
     border: none;
@@ -152,4 +157,10 @@ a{
     color: white;
     padding: 3px 6px;
     border-radius: 4px;
+}
+.checkout{
+    background-color: green;
+}
+.removeAll{
+    background-color: red;
 }

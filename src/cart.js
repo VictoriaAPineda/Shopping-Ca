@@ -25,17 +25,20 @@ let generateCardItems = () => {
                 // y is comming for the Data.js
                 // want to match id in basket to its corresponding one in Data.js
                 let search = shopItemsData.find((y) => y.id === id) || [];
+
+                // decontructuring the search object
+                let{img,name,price} = search;
             return `
                 <div class="cart-item">
-                    <img width="100" src = ${search.img} alt=""/>
+                    <img width="100" src = ${img} alt=""/>
 
                     <div class="details">
                         <div class="title-price-x">
                             <h4 class="title-price">
-                                <p>${search.name}</p>
-                                <p class="cart-item-price">$ ${search.price}</p>
+                                <p>${name}</p>
+                                <p class="cart-item-price">$ ${price}</p>
                             </h4>
-                            <i class="bi bi-x-lg"></i>
+                            <i onclick ="removeItem(${id})" class="bi bi-x-lg"></i>
                         </div>
 
                         <div class="button">
@@ -44,7 +47,7 @@ let generateCardItems = () => {
                             <i onclick = "increment(${id})" class="bi bi-plus-lg"></i>
                          </div>
 
-                        <h3></h3>
+                        <h3>$ ${item * search.price}</h3>
                     </div>
                 </div>
             `
@@ -77,6 +80,7 @@ let increment = (id) => {
         search.item += 1;
     }
     update(selectedItem.id);
+    generateCardItems(); // rerenders
      // "data" is a key name , basket is the object getting stored
     localStorage.setItem("data", JSON.stringify(basket))
 }
@@ -103,4 +107,41 @@ let update = (id) => {
     let search = basket.find((x) => x.id === id);
     document.getElementById(id).innerHTML = search.item;
     calculation();
+    totalAmount();
 }
+
+let removeItem = (id)=>{
+    let selectedItem = id;
+    // this filter will hold every item except the one that has been selected
+    basket =  basket.filter((x) => x.id !== selectedItem.id);
+    generateCardItems(); // rerenders
+    totalAmount();
+    calculation();
+    localStorage.setItem("data", JSON.stringify(basket))
+
+}
+
+let clearCard = () => {
+    basket = [];
+    generateCardItems(); // rerenders
+    calculation();
+    localStorage.setItem("data", JSON.stringify(basket))
+}
+
+let totalAmount = () => {
+    if(basket.length !==0){
+        let amount = basket.map((x)=>{
+            let {item, id} = x;
+            let search = shopItemsData.find((y) => y.id === id) || [];
+            return item * search.price;
+        }).reduce((x,y) =>  x + y, 0)
+        label.innerHTML = `
+            <h2>Total Bill: $ ${amount}</h2>
+            <button class="checkout">Checkout</button>
+            <button onclick="clearCard()" class="removeAll">Clear</button>
+        `
+    }else{
+        return
+    }
+}
+totalAmount();
